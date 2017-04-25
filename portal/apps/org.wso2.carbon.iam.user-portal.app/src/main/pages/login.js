@@ -52,6 +52,9 @@ function getPrimaryDomainName(env) {
 
 function authenticate(username, password, domain) {
     try {
+        if (!(username && password)) {
+            return {success: false, message: 'login.error.empty.authentication'};
+        }
         var passwordChar = Java.to(password.split(''), 'char[]');
         var uufUser = callOSGiService("org.wso2.is.portal.user.client.api.IdentityStoreClientService",
             "authenticate", [username, passwordChar, domain]);
@@ -64,7 +67,12 @@ function authenticate(username, password, domain) {
         if (cause != null) {
             //the exceptions thrown by the actual osgi service method is wrapped inside a InvocationTargetException.
             if (cause instanceof java.lang.reflect.InvocationTargetException) {
-                message = cause.getTargetException().message;
+                var error = cause.getTargetException();
+                message = error.message;
+                if (error.getErrorCode() && error.getErrorCode() === "20049") {
+                    return {unverified: true, message: "account.unverified"};
+                }
+
             }
         }
 
@@ -110,11 +118,32 @@ function onPost(env) {
         //configure login redirect uri
         sendRedirect(env.contextPath + env.config['loginRedirectUri']);
     } else {
+
         var domainNames = getDomainNames(env);
         var primaryDomainName = getPrimaryDomainName(env);
         var recoverynfo = getRecoveryConfigInfo();
-        return { errorMessage: result.message, domainNames: domainNames, primaryDomainName:primaryDomainName,
-            recoveryInfo: recoverynfo };
+
+        var response = { errorMessage: result.message, domainNames: domainNames, primaryDomainName:primaryDomainName,
+                                   recoveryInfo: recoverynfo }
+        if (result.unverified) {
+
+            // TODO: Get from the new config model.
+            var isNotificationInternallyManaged = true;
+
+            if (isNotificationInternallyManaged) {
+
+                var protocol = env.request.isSecure() ? "https" : "http";
+                var callback = protocol + "//" + env.request.headers["Host"] + env.contextPath + env.config['loginRedirectUri'];
+
+                response["accountUnverified"] = true;
+                response["username"] = username;
+                response["domain"] = domain;
+                response["callback"] = callback;
+                response["errorMessage"] = "account.unverified.send.email";
+
+            }
+        }
+        return response;
     }
 }
 

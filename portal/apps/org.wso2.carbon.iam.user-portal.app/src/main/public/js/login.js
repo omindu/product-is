@@ -16,7 +16,8 @@
 
 $(window).load(function () {
     $('.login-form-wrapper').parents('body').addClass('background-grey');
-    
+
+    //setting primary domain as the default
     $('#domainSelector option[value='+ $('#domainSelector').attr('data-primary') +']').prop('selected','selected');
     var primaryDomain = $('#domainSelector').val();
     $("#domain").val(primaryDomain);
@@ -25,4 +26,10 @@ $(window).load(function () {
 $('#domainSelector').change(function () {
     var domain = $(this).val();
     $("#domain").val(domain);
+});
+
+$(document).ready(function () {
+    $("#resend").click(function () {
+        $("#resend-email").submit();
+    });
 });

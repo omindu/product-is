@@ -30,19 +30,37 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 login">
                     <div class="data-container">
-                        <form class="form-horizontal" method="post">
-                            <h3>{{i18n "login.title"}}</h3>
-                            {{#if errorMessage}}
-                                <div class="alert alert-danger" role="alert">
-                                    <i class="icon fw fw-error"></i><strong>{{i18n "login.error.default"}}</strong>&nbsp;
-                                    {{i18n errorMessage}}
-                                    <button type="button" class="close" aria-label="close" data-dismiss="alert">
+                        <h3>{{i18n "login.title"}}</h3>
+                        {{#if errorMessage}}
+                            <div class="alert alert-danger" role="alert">
+                                <i class="icon fw fw-error"></i><strong>{{i18n "login.error.default"}}</strong>&nbsp;
+                                {{i18n errorMessage}}
+                                {{#if accountUnverified}}
+                                    <a id="resend" class="alert-link">here</a>.
+                                    <form id="resend-email" class="form-horizontal" method="post"
+                                          action="{{@contextPath}}/signup/confirm">
+                                        {{#if callback}}
+                                            <input type="hidden" name="callback" id="callback" value={{callback}}
+                                                    class="form-control"/>
+                                        {{/if}}
+                                        {{#if username}}
+                                            <input type="hidden" name="unconfirmed-user" id="unconfirmed-user"
+                                                   value={{username}} class="form-control"/>
+                                        {{/if}}
+                                        {{#if domain}}
+                                            <input type="hidden" name="unconfirmed-domain" id="unconfirmed-domain"
+                                                   value={{domain}} class="form-control"/>
+                                        {{/if}}
+                                    </form>
+                                {{/if}}
+                                <button type="button" class="close" aria-label="close" data-dismiss="alert">
                                         <span aria-hidden="true">
                                             <i class="fw fw-cancel"></i>
                                         </span>
-                                    </button>
-                                </div>
-                            {{/if}}
+                                </button>
+                            </div>
+                        {{/if}}
+                        <form class="form-horizontal" method="post">
                             {{#if domainNames}}
                                 <div class="form-group">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -80,19 +98,19 @@
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <button type="submit"
-                                            class="btn btn-default btn-primary add-margin-right-2x">{{i18n "login.title"}}</button>
+                                            class="btn btn-default btn-primary add-margin-right-2x" id="sign-in">{{i18n "login.title"}}</button>
                                     <!--not yet implemented-->
                                     <!--<button type="submit" class="btn btn-default btn-secondary hidden-xs hidden-sm">Go Back</button>-->
                                 </div>
                             </div>
                             <p>{{i18n "forgot.your"}}&nbsp;<a
-                                    href="{{recoveryInfo.usernameRecoveryUrl}}">{{i18n "username"}}
-                            </a>&nbsp;{{i18n "or"}}&nbsp;<a href="{{recoveryInfo.passwordRecoveryUrl}}">
+                                    href="{{recoveryInfo.usernameRecoveryUrl}}" id="recover-username">{{i18n "username"}}
+                            </a>&nbsp;{{i18n "or"}}&nbsp;<a href="{{recoveryInfo.passwordRecoveryUrl}}" id="recover-password">
                                 {{i18n "password"}}</a>&nbsp;?
                             </p>
 
                             <p class="hidden-xs hidden-sm">{{i18n "signup.message"}}<a
-                                    href="{{@contextPath}}/signup">&nbsp;{{i18n "signup.title"}}</a>
+                                    href="{{@contextPath}}/signup" id="sign-up">&nbsp;{{i18n "signup.title"}}</a>
                             </p>
                         </form>
                     </div>

@@ -19,7 +19,7 @@
 $(function () {
     var mode = "APPEND"; // Available modes [OVERWRITE,APPEND, PREPEND]
     var questions = {"questions" : [{"question" : "This is question 1?"}]};
-
+    var result;
     $( document ).ready(function() {
         if(result && result.option === 'security-question-recovery'){
             $('.email-recovery').parent().attr("disabled", "disabled");
@@ -29,4 +29,13 @@ $(function () {
         }
     });
 
+    $('input[name=recover-option]').click(function(){
+        var button = this.value;
+        if(button === "email-recovery"){
+            $('.sec-question-answer').removeAttr("required");
+        }
+        if(button === "security-question-recovery"){
+            $('.sec-question-answer').prop('required',true);;
+        }
+    });
 });

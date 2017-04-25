@@ -1,0 +1,84 @@
+{{layout "unprivilege"}}
+{{title (i18n "signup.confirm") " | " (i18n "app.name")}}
+{{css "css/user-portal.css"}}
+{{js "js/script.js"}}
+{{js "js/left-navigation.js"}}
+{{fragment "org.wso2.carbon.uuf.common.foundation.ui.uuf-client"}}
+
+{{#fillZone "content"}}
+
+    <div class="page-content-wrapper">
+        <div class="container">
+            <div class="recover-form-wrapper">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <div class="brand-container add-margin-bottom-5x">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-3 col-md-9 col-lg-9 center-block float-remove-sm
+                                float-remove-xs pull-right-md pull-right-lg">
+                                    <img class="img-responsive brand-spacer" src="{{public "images/logo-white.png"}}"
+                                         alt="wso2-logo">
+                                </div>
+                            </div>
+                            <h2 class="text-center-sm text-center-xs text-center-md text-right">{{@config.appName}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 login">
+                        {{#if errorMessage}}
+                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 login">
+                                <div class="message message-danger">
+                                    <h4><i class="icon fw fw-error"></i>{{i18n errorMessage}}</h4>
+                                    <p style="white-space: pre-wrap;">{{i18n errorDescription}}</p>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <a href="{{@contextPath}}/" class="add-margin-top-2x">{{i18n
+                                                    "back.to.sign.in"}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        {{else}}
+                        <div class="data-container">
+                            {{#if isConfirmationCodeValid}}
+                                    <h3>{{i18n "account.confirmation.complete"}}</h3>
+                                    <p>{{i18n "account.confirmation.complete.description"}}</p>
+
+                            {{/if}}
+                            {{#if isReconfirmationRequired}}
+                                    <h3>{{i18n message}}</h3>
+                                    <p>{{i18n description}}</p>
+                                    {{#if resend}}
+
+                                        <form class="form-horizontal" method="post">
+                                            <input type="hidden" name="uid" id="uid" value={{id}} class="form-control"/>
+                                            {{#if callback}}
+                                                <input type="hidden" name="callback" id="callback" value={{callback}}
+                                                        class="form-control"/>
+                                            {{/if}}
+                                            <button id="register"
+                                                    class="btn btn-default btn-primary add-margin-right-2x"
+                                                    type="submit">{{i18n "resend"}}</button>
+                                        </form>
+
+                                    {{/if}}
+
+                            {{/if}}
+                            {{#if hasConfirmationCodeSent}}
+                                    <h3>{{i18n "Confirmation email resent."}}</h3>
+                                    <p>{{i18n "We have resent the confirmation email. Please check the email to complete the registration."}}</p>
+                            {{/if}}
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <a href="{{@contextPath}}/" class="add-margin-top-2x">{{i18n
+                                            "back.to.sign.in"}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/fillZone}}
