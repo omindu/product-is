@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.PasswordCallback;
 
-import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.ErrorMessages;
+import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.ErrorCodes;
 
 /**
  * Identity store client service implementation.
@@ -112,7 +112,7 @@ public class IdentityStoreClientServiceImpl implements IdentityStoreClientServic
         } catch (IdentityStoreException e) {
             String error = "Failed to authenticate user.";
 
-            if (ErrorMessages.ERROR_CODE_ACCOUNT_UNVERIFIED.getCode().equals(Integer.toString(e.getErrorCode()))) {
+            if (ErrorCodes.ACCOUNT_UNVERIFIED.getCode().equals(Integer.toString(e.getErrorCode()))) {
 
                 error = "User account unverified.";
                 LOGGER.error(error, e);

@@ -60,11 +60,11 @@ function authenticate(username, password, domain) {
             "authenticate", [username, passwordChar, domain]);
 
         createSession(uufUser);
-        return {success: true, message: "success"}
+        return {success: true, message: "success"};
     } catch (e) {
         var message = e.message;
         var cause = e.getCause();
-        if (cause != null) {
+        if (cause !== null) {
             //the exceptions thrown by the actual osgi service method is wrapped inside a InvocationTargetException.
             if (cause instanceof java.lang.reflect.InvocationTargetException) {
                 var error = cause.getTargetException();
@@ -124,7 +124,7 @@ function onPost(env) {
         var recoverynfo = getRecoveryConfigInfo();
 
         var response = { errorMessage: result.message, domainNames: domainNames, primaryDomainName:primaryDomainName,
-                                   recoveryInfo: recoverynfo }
+                                   recoveryInfo: recoverynfo };
         if (result.unverified) {
 
             // TODO: Get from the new config model.

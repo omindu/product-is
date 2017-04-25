@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.PasswordCallback;
 
-import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.ErrorMessages;
+import static org.wso2.carbon.identity.recovery.IdentityRecoveryConstants.ErrorCodes;
 
 /**
  * Self sign up client service implementation.
@@ -172,13 +172,13 @@ public class SelfSignUpClientServiceImpl implements SelfSignUpClientService {
             userSelfSignUpManager.confirmUserSelfSignUp(code);
         }  catch (IdentityRecoveryClientException e) {
 
-            if (ErrorMessages.ERROR_CODE_EXPIRED_CODE.getCode().equals(e.getErrorCode())) {
+            if (ErrorCodes.EXPIRED_CODE.getCode().equals(e.getErrorCode())) {
                 if (log.isDebugEnabled()) {
                     log.debug("Self sign-up confirmation code is expired.", e);
                 }
                 throw new UserPortalUIException(e.getErrorCode(), "Error occurred during self sign-up user " +
                                                                  "confirmation.");
-            } else if (ErrorMessages.ERROR_CODE_INVALID_CODE.getCode().equals(e.getErrorCode())) {
+            } else if (ErrorCodes.INVALID_CODE.getCode().equals(e.getErrorCode())) {
                 if (log.isDebugEnabled()) {
                     log.debug("Self sign-up confirmation code is invalid.", e);
                 }

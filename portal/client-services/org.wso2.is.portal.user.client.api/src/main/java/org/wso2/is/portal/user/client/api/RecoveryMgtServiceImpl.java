@@ -156,7 +156,7 @@ public class RecoveryMgtServiceImpl implements RecoveryMgtService {
         } catch (IdentityRecoveryException e) {
             log.error("Error while starting challenge question based recovery for userID: " + userUniqueId, e);
             String errorCode = !StringUtils.isEmpty(e.getErrorCode()) ? e.getErrorCode() : IdentityRecoveryConstants
-                    .ErrorMessages.ERROR_CODE_UNEXPECTED.getCode();
+                    .ErrorCodes.UNEXPECTED.getCode();
             ChallengeQuestionsResponse challengeQuestionResponse = new ChallengeQuestionsResponse(Collections
                     .EMPTY_LIST);
             challengeQuestionResponse.setStatus(errorCode);

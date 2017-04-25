@@ -85,6 +85,10 @@
                                                 {{/each}}
                                             </select>
                                         {{/if}}
+                                        {{#if callback}}
+                                            <input type="hidden" name="callback" id="callback" value={{callback}}
+                                                   class="form-control"/>
+                                        {{/if}}
                                     </div>
                                 </div>
 
